@@ -13,16 +13,21 @@ while True:
 		# If Reading is valid
 		if isinstance(humi, float) and isinstance(temp, float):
 			data = {
-				"api_key": API_KEY,
 				"field1": temp,
 				"field2": humi,
 			}
-			r = requests.post(url, data = data)
 			print(data)
+			data["api_key"] = API_KEY,
+			r = requests.post(url, data = data)
 			print(r)
 		else:
 			print("No Data")
-		time.sleep(2)
+		time.sleep(5)
 	except Exception as e:
 		print(e)
 		break
+
+
+
+
+
