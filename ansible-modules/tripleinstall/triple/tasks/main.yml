@@ -1,0 +1,21 @@
+---
+- name: Install pydf
+  apt:
+    pkg: pydf
+    state: present
+    update_cache: true
+- name: Install htop
+  apt:
+    pkg: htop
+    state: present
+- name: Install ack
+  apt:
+    pkg: ack
+    state: present
+- name: Update package lists
+  apt:
+    upgrade: dist
+- name: Upgrade packages
+  apt:
+    name: "*"
+    state: latest
