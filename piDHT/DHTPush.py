@@ -23,5 +23,6 @@ while True:
 		else:
 			print("No Data")
 		time.sleep(2)
-	except:
+	except Exception as e:
+		print(e)
 		break
