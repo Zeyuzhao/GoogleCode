@@ -8,7 +8,7 @@ def readDHT():
 	return humi, temp
 while True:
 	try:
-		humi, temp = DHT22_data()
+		humi, temp = readDHT()
 
 		# If Reading is valid
 		if isinstance(humi, float) and isinstance(temp, float):
@@ -17,7 +17,7 @@ while True:
 				"field1": temp,
 				"field2": humi,
 			}
-			r = requests.post(url, payload = data)
+			r = requests.post(url, data = data)
 			print(data)
 			print(r)
 		else:
