@@ -11,7 +11,7 @@ serialPort = serial.Serial(pi_port, baudrate=9600, timeout=0.5)
 async_mode = None
 
 app = Flask(__name__)
-#app.config['SECRET_KEY'] = 'secret!'
+app.config['SECRET_KEY'] = b'x9R9\x98\xf5\x92F"\xd6\x16\toNT\x91\xbe+\xaa\xaa\x03\r:\xe8'
 socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
@@ -23,10 +23,10 @@ def background_thread():
     while True:
         """Collect Data right here"""
         serialRaw = serialPort.readline()
-        data = serialRaw.decode("utf-8").split(",")
+        data = serialRaw.decode("utf-8").rstrip("\r\n").split(",")
         print(data)
 
-        if len(data) == 4:
+        if len(data) == 3:
             output = {}
             for i in range(len(sensors)):
                 cData = data[i]

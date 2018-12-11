@@ -71,6 +71,7 @@
 
     $(document).ready(function () {
         //The URL for Socket IO
+        console.log("System Started");
         var namespace = '/test';
         var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
         //Prep each chart with the corresponding sensor
@@ -107,6 +108,7 @@
     });
 
     function dataAppend(msg) {
+        console.log("function called");
         totalPoints++;
         console.log(msg);
         for (var i = 0; i < sensors.length; i++) {
