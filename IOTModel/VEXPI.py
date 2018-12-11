@@ -5,8 +5,8 @@ from flask_socketio import SocketIO
 import serial
 
 win10_port = "COM2"
-pi_port = "/dev/ttyAMA0"
-serialPort = serial.Serial(pi_port, baudrate=115200, timeout=0.5)
+pi_port = "/dev/ttyACM0"
+serialPort = serial.Serial(pi_port, baudrate=9600, timeout=0.5)
 
 async_mode = None
 
