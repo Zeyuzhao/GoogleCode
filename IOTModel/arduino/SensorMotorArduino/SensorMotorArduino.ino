@@ -4,11 +4,12 @@
 #define DHTTYPE DHT22  
 
 DHT dht(DHTPIN, DHTTYPE);
-
+int ledPin = 9;
 void setup() {
   Serial.begin(9600);
   Serial.println("DHTxx test!");
   dht.begin();
+  pinMode(ledPin, OUTPUT);
 }
 
 void loop() {
@@ -23,4 +24,5 @@ void loop() {
   }
   int light = analogRead(A0);
   Serial.println(String(t) + "," + String(h) + "," + String(light));
+  analogWrite(ledPin, (t - 18) * 20);
 }

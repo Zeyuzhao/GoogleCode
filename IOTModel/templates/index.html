@@ -14,22 +14,24 @@
     </style>
 </head>
 <body>
-<h1>Vex Control</h1>
+<h1>IOT Sensor Dashboard</h1>
 
 <!--<p>Async mode is: <b>{{ async_mode }}</b></p> -->
 <div class="data_storage">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-6">
             <canvas id="tempC" width="400" height="300"></canvas>
             <p id="temp"></p>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6">
             <canvas id="humC" width="400" height="300"></canvas>
-            <p id="light"></p>
+            <p id="hum"></p>
         </div>
-        <div class="col-md-3">
-            <canvas id="lightC" width="400" height="300"></canvas>
-            <p id="sal"></p>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <canvas id="lightC" width="400" height="100"></canvas>
+            <p id="light"></p>
         </div>
     </div>
 
@@ -76,9 +78,9 @@
         var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
         //Prep each chart with the corresponding sensor
         for (var i = 0; i < sensors.length; i++) {
-            sensorArrayHist.push([0]);
-            sensorTotalHist.push([0]);
-            multiTimeArray.push([0]);
+            sensorArrayHist.push([]);
+            sensorTotalHist.push([]);
+            multiTimeArray.push([]);
 
             //Select the corresponding canvas element
             var ctx = document.getElementById(sensors[i] + "C").getContext('2d');
@@ -115,17 +117,12 @@
             var sensorLabel = sensors[i];
             var sensorData = msg[sensorLabel];
             if (parseInt(sensorData) !== -1) {
-
-                if (i === 0) //TEMP CASE
-                {
-                    //Process Temp data into C degrees
-                    sensorData = Math.floor(0.125156 * (841.2 - sensorData));
-                }
                 $("#" + sensorLabel).text(sensorLabel + ": " + sensorData);
                 sensorArrayHist[i].push(sensorData);
                 sensorTotalHist[i].push(sensorData);
                 console.log(sensorData);
-                multiTimeArray[i].push(sensorTotalHist[i].length);
+                //multiTimeArray[i].push(sensorTotalHist[i].length);
+                multiTimeArray[i].push(new Date().toLocaleTimeString());
                 //Checks if the amount of data points exceeds max point count
                 if (sensorArrayHist[i].length > maxDataLength) {
                     sensorArrayHist[i].shift();

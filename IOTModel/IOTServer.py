@@ -3,6 +3,7 @@ from threading import Lock
 from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO
 import serial
+from datetime import datetime
 
 win10_port = "COM2"
 pi_port = "/dev/ttyACM0"
@@ -20,19 +21,21 @@ sensors = ['temp', 'hum', 'light']
 def background_thread():
     """Example of how to send server generated events to clients."""
     count = 0
+    logfile = open("iotsensor.txt", "a")
+
     while True:
         """Collect Data right here"""
         serialRaw = serialPort.readline()
         data = serialRaw.decode("utf-8").rstrip("\r\n").split(",")
-        print(data)
-
-        if len(data) == 3:
+        # print(data)
+        if len(data) == len(sensors):
             output = {}
             for i in range(len(sensors)):
                 cData = data[i]
                 output[sensors[i]] = cData
             count += 1
-            print(output)
+            print(str(datetime.now()) + ": {0} F, {1} Humidity, {2} Light\n".format(*data))
+            logfile.write(str(datetime.now()) + ": {0} F, {1} Humidity, {2} Light\n".format(*data))
             socketio.emit('sensor',
                       output,
                       namespace='/test')
